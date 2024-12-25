@@ -1,0 +1,12 @@
+.nav-item.ms-auto {
+    margin-left: auto;
+}
+
+.card-header-loadpatrol {
+    height: 50px; /* Adjust height */
+    line-height: 50px; /* Vertically center text */
+    background-color: #f8f9fa; /* Background color */
+    border-bottom: 1px solid #dee2e6; /* Border style */
+    padding: 0 15px; /* Padding */
+    /* Add any other styles specific to this card header */
+}

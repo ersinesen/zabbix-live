@@ -1,0 +1,14 @@
+{
+  "name": "db",
+  "version": "1.0.0",
+  "description": "```\r sudo apt install postgresql -y postgresql-contrib\r sudo systemctl enable postgresql.service\r sudo systemctl start postgresql.service\r sudo -u postgres psql\r ```",
+  "main": "listen.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pg": "^8.13.1"
+  }
+}

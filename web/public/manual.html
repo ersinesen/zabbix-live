@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Zabbix-live</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css"
+    />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <div class="page">
+      <!-- Navbar -->
+      <div id="navbar-placeholder"></div>
+
+      <!-- Menu -->
+      <div id="menu-placeholder"></div>
+
+      <!-- Content -->
+      <div class="page-wrapper">
+        <!-- Page header -->
+        <div class="page-header d-print-none">
+          <div class="container-xl">
+            <div class="row g-2 align-items-center">
+              <div class="col">
+                <h2 class="page-title">Kullanım Kılavuzu</h2>
+                <br />                
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page body -->
+        <div class="page-body">
+          <div class="container-xl">
+            <div class="accordion" id="accordion-example">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-1">
+                  <button
+                    class="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse-1"
+                    aria-expanded="true"
+                  >
+                    1. Giriş
+                  </button>
+                </h2>
+                <div
+                  id="collapse-1"
+                  class="accordion-collapse collapse show"
+                  data-bs-parent="#accordion-example"
+                >
+                  <div class="accordion-body pt-0">
+                    <p>Assetpatrol, kurumsal bir varlık envanteri yönetim sistemidir. Bu sistem, kurumunuzdaki tüm varlıkların (kullanıcı, donanım ve yazılım) izlenmesi ve yönetilmesini sağlar. Assetpatrol, ajanlar aracılığıyla cihaz verilerini toplar, ağ keşfi ve AD keşfi bileşenleri ile veritabanını günceller ve kullanıcı dostu bir arayüz ile bu verilere erişim sağlar.</p>
+                    <p>Varlık bilgileri üç şekilde alınır:
+                      <ul>
+                        <li>Kurulu ajan</li>
+                        <li>Ağ üzerinden keşif</li>
+                        <li>Active Directory ajanı</li>
+                      </ul>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div id="footer-placeholder"></div>
+    </div>
+
+
+    <script>
+      // Navbar
+      fetch("navbar.html")
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("navbar-placeholder").innerHTML = html;
+          // Call updateNavbar after the HTML is inserted
+          updateNavbar();
+        });
+      // Footer
+      fetch("footer.html")
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("footer-placeholder").innerHTML = html;
+        });
+    </script>
+
+    <script src="js/navbar.js"></script>
+
+  </body>
+</html>

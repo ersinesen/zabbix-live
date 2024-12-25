@@ -1,0 +1,238 @@
+.jt-table {
+  border: 1px solid #333;
+}
+
+/* thead */
+.jt-header-cell {
+  background: #ddd;
+  border: 1px solid #333 !important;
+  overflow: hidden !important;
+  white-space: normal;
+  /*width: var(--cell-width) !important;
+  height: var(--cell-height) !important;*/
+  min-width: 60px;
+  max-width: 500px;
+  text-overflow: ellipsis;
+  font-size: 0.75rem;
+  font-weight: var(--tblr-font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  line-height: 0.8rem;
+  color: var(--tblr-muted);
+  /*padding-top: .5rem;
+  padding-bottom: .5rem;*/
+}
+
+/* Style for header textarea */
+.jt-header-cell .jt-header-textarea {
+  border: 0px !important;
+  background-color: #ddd;
+  height: 100%;
+  /*var(--cell-height) !important; /* Inherit height from --cell-height */
+  width: 100%;
+  /*var(--cell-width) !important; /* Inherit width from --cell-width */
+  min-width: 80px;
+  /* Minimum width for the input box */
+  max-width: 500px;
+  /* Maximum width for the input box */
+  min-height: 40px;
+  /* line-height: 60px; /* Set line-height to match container's full height */
+  box-sizing: border-box;
+  /* Ensure padding and border are included in the width and height */
+  resize: both;
+  /* Allow resizing of the input box */
+  overflow: auto;
+  /* Allow content to overflow with a scrollbar when needed */
+  padding-top: 0px;
+  padding-bottom: 0px;
+  white-space: normal;
+  /* Allow text to wrap within the box */
+  font-size: 0.75rem;
+  color: #222;
+}
+
+/* header button */
+.jt-header-button {
+  width: 20px !important;
+  font-size: small;
+}
+
+
+/* Style for cell */
+.jt-cell {
+  position: relative; /* Ensure the cell is the positioning context for the menu */
+  border: 1px solid #333 !important;
+  width: var(--cell-width) !important;
+  height: var(--cell-height) !important;
+  min-width: 60px;
+  /*max-width: 500px;*/
+  overflow: hidden !important;
+  background-color: var(--tblr-body-bg);
+  vertical-align: top !important;
+}
+
+/* Style for selected cell */
+.selected-cell {
+  border-color: red !important;
+  border-width: 2px !important;
+}
+
+/* Input box */
+.jt-input {
+  max-width: var(--cell-width);
+  min-width: 60px;
+  background-color: var(--tblr-body-bg);
+}
+
+/* Input box for spreadsheet */
+.jt-input-ss {
+  border: 0px !important;
+  background-color: var(--tblr-body-bg);
+  height: 100%;
+  /*var(--cell-height) !important; /* Inherit height from --cell-height */
+  width: 100%;
+  /*var(--cell-width) !important; /* Inherit width from --cell-width */
+  min-width: 60px;
+  /* Minimum width for the input box */
+  max-width: 500px;
+  /* Maximum width for the input box */
+  /* line-height: 60px; /* Set line-height to match container's full height */
+  box-sizing: border-box;
+  /* Ensure padding and border are included in the width and height */
+  resize: both;
+  /* Allow resizing of the input box */
+  overflow: auto;
+  /* Allow content to overflow with a scrollbar when needed */
+  padding-top: 0px;
+  padding-bottom: 0px;
+  white-space: normal;
+  /* Allow text to wrap within the box */
+  font-size: 0.75rem;
+  vertical-align: top !important;
+}
+
+/* multiline textarea */
+.jt-textarea {
+  border: 0px !important;
+  background-color: var(--tblr-body-bg);
+  height: 100%;
+  /*var(--cell-height) !important; /* Inherit height from --cell-height */
+  width: 100%;
+  /*var(--cell-width) !important; /* Inherit width from --cell-width */
+  min-width: 100px;
+  /* Minimum width for the input box */
+  max-width: 500px;
+  /* Maximum width for the input box */
+  /* line-height: 60px; /* Set line-height to match container's full height */
+  box-sizing: border-box;
+  /* Ensure padding and border are included in the width and height */
+  resize: both;
+  /* Allow resizing of the input box */
+  overflow: auto;
+  /* Allow content to overflow with a scrollbar when needed */
+  padding-top: 0px;
+  padding-bottom: 0px;
+  white-space: normal;
+  /* Allow text to wrap within the box */
+  font-size: 0.75rem;
+}
+
+
+/* Style for the select element */
+.jt-select {
+  border: 0px !important;
+  background-color: var(--tblr-body-bg);
+  overflow: visible !important;
+  max-height: 100px;
+  /* Adjust the height as needed */
+  min-width: 100px;
+  overflow-x: auto;
+  /* Use scrollbars when content overflows */
+  font-size: 0.75rem;
+}
+
+/* option in the select */
+.jt-select-option {
+  white-space: nowrap !important;
+}
+
+/* Multiple select */
+.jt-multiselect {
+  border: 0px !important;
+  background-color: var(--tblr-body-bg);
+  /*overflow: visible !important;*/
+  max-height: 120px;
+  /* Adjust the height as needed */
+  min-width: 100px;
+  overflow-x: auto;
+  /* Use scrollbars when content overflows */
+  text-overflow: ellipsis;
+
+}
+
+/* Prevent text wrapping in options */
+.jt-multiselect option {
+  white-space: nowrap !important;
+}
+
+/* Custom form-selectgroup-input:checked */
+.form-selectgroup-input:checked+.form-selectgroup-label {
+  border-color: #adb5bd !important;
+  background-color: #76787a !important;
+  color: #212529 !important;
+}
+
+/* iframe box */
+.jt-iframe {
+  max-width: var(--cell-width);
+  min-width: 100px;
+  max-height: var(--cell-height);
+  min-height: 100px;
+}
+
+/* video */
+.jt-video {
+  /* override other styles to make responsive */
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* topchart */
+.jt-topchart-title {
+  background-color: #9da0a3 !important;
+  min-height: 30px;
+}
+
+/* Style for the hover menu */
+.jt-hover-menu {
+  display: none; /* Hidden by default */
+  position: absolute;
+  top: 0; /* Align with the top of the cell */
+  left: 0;
+  background-color: #b5b3b3;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Ensure the menu is on top */
+  padding: 4px;
+  white-space: nowrap; /* Prevent line breaks in menu */
+  overflow: hidden; /* Hide overflow if needed */
+  border-radius: 4px;
+  display: flex; /* Align items horizontally */
+  height: 2rem; /* Set height to 2rem (32px) */
+}
+
+/* Style for each button */
+.jt-menu-button {
+  margin: 0px; /* Equal margin on all sides */
+  padding: 2px 4px; /* Padding for button appearance */
+  height: 1rem;
+  border: none;
+  background-color: #bdbfc1;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.jt-menu-button:hover {
+  background-color: #d60935;
+}

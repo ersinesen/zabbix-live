@@ -1,0 +1,19 @@
+/* CSS for the table row styles */
+.row-down {
+    background-color: #d4edda; /* Light green for "up" */
+    color: #155724; /* Dark green text color */
+}
+
+.row-up {
+    background-color: #f8d7da; /* Light red for "down" */
+    color: #721c24; /* Dark red text color */
+}
+
+.row-new {
+    background-color: #cce5ff; /* Light blue for "new" */
+    color: #004085; /* Dark blue text color */
+}
+
+.col-min-width {
+    min-width: 100px; /* Adjust the width as needed */
+}

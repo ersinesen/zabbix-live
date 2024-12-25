@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Zabbix-live</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css"
+    />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <div class="page">
+      <!-- Navbar -->
+      <div id="navbar-placeholder"></div>
+
+      <!-- Menu -->
+      <div id="menu-placeholder"></div>
+
+      <!-- Content -->
+      <div class="page-wrapper">
+        <!-- Page header -->
+        <div class="page-header d-print-none">
+          <div class="container-xl">
+            <div class="row g-2 align-items-center">
+              <div class="col">
+                <h2 class="page-title">Log</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page body -->
+        <div class="page-body">
+          <div class="container-xl">
+            <div class="row row-cards">
+              <div class="col-lg-12 col-xl-12">
+                <div class="card">
+                  <div class="card-body">
+                    <!-- LOG HERE -->
+                    <pre id="log-content">Loading logs...</pre>
+                    <br />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- body -->
+      </div>
+
+      <!-- Footer -->
+      <div id="footer-placeholder"></div>
+    </div>
+
+    <script src="js/navbar.js"></script>
+
+    <script>
+      // Navbar
+      fetch("navbar.html")
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("navbar-placeholder").innerHTML = html;
+          // Call updateNavbar after the HTML is inserted
+          updateNavbar();
+        });
+      // Footer
+      fetch("footer.html")
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("footer-placeholder").innerHTML = html;
+        });
+
+      // Fetch and display log content
+      fetch("/api/log")
+        .then((response) => response.text())
+        .then((logContent) => {
+          document.getElementById("log-content").textContent = logContent;
+        })
+        .catch((error) => {
+          document.getElementById("log-content").textContent =
+            "Error loading logs";
+          console.error("Error fetching log content:", error);
+        });
+    </script>
+
+  </body>
+</html>

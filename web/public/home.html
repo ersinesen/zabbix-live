@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Zabbix-live</title>
+    <link rel="stylesheet" href="css/flatpickr/flatpickr.min.css">
+    <!-- <link rel="stylesheet" type="text/css" href="css/flatpickr/themes/dark.css"> -->
+
+    <link rel="stylesheet" href="css/tabler.min.css" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/tabs.css" rel="stylesheet" type="text/css" />
+    <link href="css/jtabula.css" rel="stylesheet" type="text/css" />
+    <link href="css/table.css" rel="stylesheet" type="text/css" />
+        
+  </head>
+
+  <body>
+    <div class="page">
+      <!-- Content -->
+      <div class="page-wrapper">
+        <!-- Navbar -->
+        <div id="navbar-placeholder"></div>
+
+        <!-- Page body -->
+        <div class="page-body">
+          <div id="tabs-container"></div>
+
+          <div class="container-xl">
+            <div class="row row-cards">
+              <div class="col-md-12"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div id="footer-placeholder"></div>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/flatpickr.js"></script>
+    <script src="js/apexcharts.min.js"></script>
+    <script src="js/tabler.min.js"></script>
+    <script src="js/websocketclient.js"></script>
+    <script src="js/echarts.min.js "></script>
+    <script src="js/table.js"></script>
+    <script src="js/topchart.js"></script>
+    <script src="js/jtabula.js"></script>
+    <script src="js/tabs.js"></script>
+    <script src="js/home.js"></script>
+    <script src="js/navbar.js"></script>
+
+    <script>
+      // Navbar
+      fetch("navbar.html")
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("navbar-placeholder").innerHTML = html;
+          // Call updateNavbar after the HTML is inserted
+          updateNavbar();
+        });
+
+      // Footer
+      fetch("footer.html")
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("footer-placeholder").innerHTML = html;
+        });
+    </script>
+  </body>
+</html>
