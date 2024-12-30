@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     background: #fff;
-    font-size: small;
+    font-size: 14px;
     color: inherit;
     font-family: inherit;
     box-sizing: border-box; /* Include border in the box model */
@@ -11,16 +11,17 @@
     overflow: visible !important;
     visibility: visible !important;
     opacity: 1 !important;
-    max-width: 120px;
-    min-width: 80px;
-    min-height: 24px;
+    width: 100%;
+    max-width: 250px;
+    min-height: 32px;
 }
+
 /* Reset styles for the input element */
 .my-input {
     margin: 0;
     padding: 0;
     background: #fff;
-    font-size: small;
+    font-size: 14px;
     color: inherit;
     font-family: inherit;
     box-sizing: border-box; /* Include border in the box model */
@@ -28,9 +29,11 @@
     overflow: visible !important;
     visibility: visible !important;
     opacity: 1 !important;
-    max-width: 100px;
-    min-width: 60px;
+    width: 100%;
+    max-width: 250px;
+    min-height: 32px;
 }
+
 /* Reset styles for the checkbox element */
 .my-checkbox {
     margin: 8px;

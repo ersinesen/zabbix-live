@@ -137,21 +137,22 @@ function initSettings(tabs) {
                 <tbody>
                   <tr>
                     <td><label for="boxName">Chart Name</label></td>
-                    <td><input type="text" id="boxName" placeholder="Enter chart name" /></td>
+                    <td><input class="my-input" type="text" id="boxName" placeholder="Enter chart name" /></td>
                   </tr>
                   <tr>
                     <td><label for="tabSelectorInsert">Tab</label></td>
                     <td><select id="tabSelectorInsert" class="my-select"></select></td>
                   </tr>
                   <tr>
-                    <td><label for="hostSelector">Host</label></td>
-                    <td><select id="hostSelector" class="my-select"></select></td>
+                    <td><label for="divHostSelect">Host</label></td>
+                    <td>
+                      <div id="divHostSelect"></div>
+                    </td>
                   </tr>
                   <tr>
-                    <td><label for="itemSelector">Item</label></td>
+                    <td><label for="divItemSelect">Item</label></td>
                     <td>
-                      <select id="itemSelector" class="my-select">
-                      </select>
+                      <div id="divItemSelect" class="multiselect"></div>
                     </td>
                   </tr>
                   <tr>
@@ -180,21 +181,22 @@ function initSettings(tabs) {
                 <tbody>
                   <tr>
                     <td><label for="boxNameHistory">Chart Name</label></td>
-                    <td><input type="text" id="boxNameHistory" placeholder="Enter chart name" /></td>
+                    <td><input class="my-input" type="text" id="boxNameHistory" placeholder="Enter chart name" /></td>
                   </tr>
                   <tr>
                     <td><label for="tabSelectorInsertHistory">Tab</label></td>
                     <td><select id="tabSelectorInsertHistory" class="my-select"></select></td>
                   </tr>
                   <tr>
-                    <td><label for="hostSelectorHistory">Host</label></td>
-                    <td><select id="hostSelectorHistory" class="my-select"></select></td>
+                    <td><label for="divHostSelectHistory">Host</label></td>
+                    <td>
+                      <div id="divHostSelectHistory" class="multiselect"></div>
+                    </td>
                   </tr>
                   <tr>
-                    <td><label for="itemSelectorHistory">Item</label></td>
+                    <td><label for="divItemSelectHistory">Item</label></td>
                     <td>
-                      <select id="itemSelectorHistory" class="my-select">
-                      </select>
+                      <div id="divItemSelectHistory" class="multiselect"></div>
                     </td>
                   </tr>
                   <tr>
@@ -229,41 +231,6 @@ function initSettings(tabs) {
   // Fill hosts from backend
   fetchHosts();
 
-  // Event listener for hostSelector change
-  const hostSelector = document.getElementById('hostSelector');
-
-  // Add an event listener for the 'change' event
-  hostSelector.addEventListener('change', (event) => {
-    // Get the selected option value
-    const selectedValue = event.target.value;
-
-    // Get the selected option text
-    const selectedText = event.target.options[event.target.selectedIndex].text;
-
-    // Log the selected value and text (or perform any other action)
-    //console.log(`Host id: ${selectedValue} - Host name: ${selectedText}`);
-
-    // Fetch items for the selected host
-    fetchItems(selectedValue);
-  });
-
-  // Event listener for hostSelector change
-  const hostSelectorHistory = document.getElementById('hostSelectorHistory');
-
-  // Add an event listener for the 'change' event
-  hostSelectorHistory.addEventListener('change', (event) => {
-    // Get the selected option value
-    const selectedValue = event.target.value;
-
-    // Get the selected option text
-    const selectedText = event.target.options[event.target.selectedIndex].text;
-
-    // Log the selected value and text (or perform any other action)
-    console.log(`Host id: ${selectedValue} - Host name: ${selectedText}`);
-
-    // Fetch items for the selected host
-    fetchItems(selectedValue, chart="historychart");
-  });  
 
   // Create datetime pickers
   flatpickr("#datetimePicker1", {
@@ -331,7 +298,7 @@ function initSettings(tabs) {
       }
     } 
     else if (event.target && event.target.classList.contains("insert-box")) {
-      //console.log("insert-box called.");
+      //console.log("insert-box live called.");
       const selectedTabId = document.getElementById("tabSelectorInsert").value;
 
       if (selectedTabId) {
@@ -390,9 +357,8 @@ function initSettings(tabs) {
         // Insert a new history box into the selected tab
         const boxName = document.getElementById("boxNameHistory").value;
         const chartType = document.getElementById("typeSelectorHistory").value;
-        const selectElement = document.getElementById("itemSelectorHistory");
-        const selectedOption = selectElement.options[selectElement.selectedIndex];
-        const item = selectedOption.dataset.index;
+        const divItemSelect = document.getElementById("divItemSelectHistory");
+        const item = divItemSelect.getSelectedOptions().value;
 
         // fetch data from backend
         const series = await fetchHistoryData(item,  start_time, end_time);
@@ -472,36 +438,105 @@ async function fetchHosts() {
     const hosts = await response.json();
 
     // Get the select element
-    const selectElement = document.getElementById("hostSelector");
-    const selectElementHistory = document.getElementById("hostSelectorHistory");
-
-    // Clear existing options
-    selectElement.innerHTML = "";
-    selectElementHistory.innerHTML = "";
 
     // Populate the select element
+    let hostOptions = [];
     hosts.forEach(host => {
-      // Create a new option element
-      const option = document.createElement("option");
-      option.value = host.hostid; // Set the value to host id
-      option.textContent = `${host.host}`; // Set the text content to include name and items
-
-      // Append the option to the select element
-      selectElement.appendChild(option);
-
-      // Create a new option element
-      const option2 = document.createElement("option");
-      option2.value = host.hostid; // Set the value to host id
-      option2.textContent = `${host.host}`; // Set the text content to include name and items
-
-      // Append the option to the select element
-      selectElementHistory.appendChild(option2);
-      
+      hostOptions.push({label: host.host, value: host.hostid});      
     });
+
+    // Create host selects
+    createHostSelects(hostOptions);
+
+    // Create item selects
+    createItemSelects();
 
   } catch (error) {
     console.error("There was an error:", error);
   }
+}
+
+function createHostSelects(options) {
+
+  // Live chart host select
+  VirtualSelect.init({
+    ele: `#divHostSelect`,
+    options: options,
+    multiple: false,
+    showSelectedOptionsFirst: true,
+    popupDropboxBreakpoint: "3000px",
+    hideClearButton: true,
+    search: true,
+  });
+
+  const id = "divHostSelect";
+  const element = document.getElementById(id);
+  element.addEventListener('change', function() {
+    // Get the selected option value
+    const selectedValue = this.getSelectedOptions().value;
+
+    // Get the selected option text
+    const selectedText = this.getSelectedOptions().label;
+
+    // Log the selected value and text (or perform any other action)
+    console.log(`Host id: ${selectedValue} - Host name: ${selectedText}`);
+
+    // Fetch items for the selected host
+    fetchItems(selectedValue);
+  });
+
+  // History chart host select
+  VirtualSelect.init({
+    ele: `#divHostSelectHistory`,
+    options: options,
+    multiple: false,
+    showSelectedOptionsFirst: true,
+    popupDropboxBreakpoint: "3000px",
+    hideClearButton: true,
+    search: true,
+  });
+
+  const id2 = "divHostSelectHistory";
+  const element2 = document.getElementById(id2);
+  element2.addEventListener('change', function() {
+    // Get the selected option value
+    const selectedValue = this.getSelectedOptions().value;
+
+    // Get the selected option text
+    const selectedText = this.getSelectedOptions().label;
+
+    // Log the selected value and text (or perform any other action)
+    console.log(`Host id: ${selectedValue} - Host name: ${selectedText}`);
+
+    // Fetch items for the selected host
+    fetchItems(selectedValue, chart="historychart");
+  });
+
+}
+
+function createItemSelects() {
+  // Live chart host select
+  VirtualSelect.init({
+    ele: `#divItemSelect`,
+    options: [],
+    multiple: false,
+    showSelectedOptionsFirst: true,
+    popupDropboxBreakpoint: "3000px",
+    hideClearButton: true,
+    search: true,
+  });
+
+  // History chart host select
+  VirtualSelect.init({
+    ele: `#divItemSelectHistory`,
+    options: [],
+    multiple: false,
+    showSelectedOptionsFirst: true,
+    popupDropboxBreakpoint: "3000px",
+    hideClearButton: true,
+    search: true,
+  });
+
 }
 
 // Fetch items data from backend and insert into select
@@ -517,55 +552,28 @@ async function fetchItems(hostid, chart="livechart") {
     // Parse the JSON response
     const items = await response.json();
 
-    // Get the select element
-    let selectElement = null;
-    if (chart === "livechart") {
-      selectElement = document.getElementById("itemSelector");
-    }
-    else if (chart === "historychart") {
-      selectElement = document.getElementById("itemSelectorHistory");
-    }
-
-    // Clear existing options
-    selectElement.innerHTML = "";
-
     // Populate the select element
+    const listItems = [];
     items.forEach(item => {
-      // Create a new option element
-      const option = document.createElement("option");
-
-      // Set value to 'itemid'  
-      option.value = `${item.itemid}`;
-
-      // Set text content to 'name'
-      option.textContent = `${item.name}`;
-
-      // Set custom attributes for name and index
-      option.dataset.name = `${item.name}`;
-      option.dataset.index = `${item.itemid}`;
-
-      // Append the option to the select element
-      selectElement.appendChild(option);      
+      listItems.push({value: item.itemid, label: item.name});
     });
 
+    // Fill options for multiselect
+    if (chart === "livechart") {
+      document.querySelector('#divItemSelect').setOptions(listItems);
+    } else {  
+      document.querySelector('#divItemSelectHistory').setOptions(listItems);
+    }
   } catch (error) {
     console.error("There was an error:", error);
   }
 }
 
 
-
 function getChannelName() {
-  // Get the select element
-  const selectElement = document.getElementById("itemSelector");
-
-  // Get the selected option element
-  const selectedOption = selectElement.options[selectElement.selectedIndex];
-
-  // Extract name and field index from dataset and value
-  const channel = selectedOption.dataset.index;
-
-  return channel;
+  const divItemSelect = document.getElementById("divItemSelect");
+  const item = divItemSelect.getSelectedOptions().value;
+  return item;
 }
 
 async function fetchHistoryData(item, startTime, endTime) {
