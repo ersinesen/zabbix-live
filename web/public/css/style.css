@@ -1,7 +1,7 @@
 /* Reset styles for the select element */
 .my-select {
     margin: 0;
-    padding: 0;
+    padding: 8px;
     background: #fff;
     font-size: 14px;
     color: inherit;
@@ -19,7 +19,7 @@
 /* Reset styles for the input element */
 .my-input {
     margin: 0;
-    padding: 0;
+    padding: 8px;
     background: #fff;
     font-size: 14px;
     color: inherit;

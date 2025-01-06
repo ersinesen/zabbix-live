@@ -42,9 +42,11 @@ Zabbix complementary system for live metric monitoring.
 
 ## TODO
 
-1. Pie chart
+1. ~~Pie chart~~ [06.01.2025]
 
 2. Multiple Item Selection - individual charts
 
-3. Multiple Item Selection - combined chart
+3. ~~Multiple Item Selection - combined chart~~ [06.01.2025]
+
+4. Network map display
 

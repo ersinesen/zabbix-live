@@ -161,6 +161,7 @@ function initSettings(tabs) {
                       <select id="typeSelector" class="my-select my-select">
                         <option value="bar">Bar</option>
                         <option value="line">Line</option>
+                        <option value="pie">Pie</option>
                       </select>
                     </td>
                   </tr>
@@ -306,16 +307,17 @@ function initSettings(tabs) {
         // Insert a new box into the selected tab
         const boxName = document.getElementById("boxName").value;
         const chartType = document.getElementById("typeSelector").value;
-        const channel = getChannelName();
+        const channels = getChannels();
+        const labels = getLabels();
         
         const cell = {
           type: "livechart",
           chartType: chartType,
           chartTitle: boxName,
           websocketurl: NOTIFYHUB_URL,
-          channel: channel,
+          channels: channels,
           maxY: null,
-          labels: null,
+          labels: labels,
           series: [
             {
               data: [],
@@ -519,7 +521,7 @@ function createItemSelects() {
   VirtualSelect.init({
     ele: `#divItemSelect`,
     options: [],
-    multiple: false,
+    multiple: true,
     showSelectedOptionsFirst: true,
     popupDropboxBreakpoint: "3000px",
     hideClearButton: true,
@@ -570,10 +572,20 @@ async function fetchItems(hostid, chart="livechart") {
 }
 
 
-function getChannelName() {
+function getChannels() {
   const divItemSelect = document.getElementById("divItemSelect");
-  const item = divItemSelect.getSelectedOptions().value;
-  return item;
+  //const item = divItemSelect.getSelectedOptions().value;
+  //return item;
+  const channels = divItemSelect.getSelectedOptions().map(option => option.value);
+  return channels;
+}
+
+function getLabels() {
+  const divItemSelect = document.getElementById("divItemSelect");
+  //const item = divItemSelect.getSelectedOptions().value;
+  //return item;
+  const channels = divItemSelect.getSelectedOptions().map(option => option.label);
+  return channels;
 }
 
 async function fetchHistoryData(item, startTime, endTime) {

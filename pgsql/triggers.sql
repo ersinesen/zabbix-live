@@ -16,11 +16,17 @@ BEGIN
 END;
 $function$;
 
--- TRIGGER
+-- TRIGGERS
 CREATE TRIGGER zabbix_trigger
 AFTER INSERT ON history
 FOR EACH ROW
 EXECUTE FUNCTION zabbix_notify();
+
+CREATE TRIGGER zabbix_trigger
+AFTER INSERT ON history_uint
+FOR EACH ROW
+EXECUTE FUNCTION zabbix_notify();
+
 
 -- TEST NOTIFICATION
 SELECT pg_notify('zabbix_live', 'test_notification');

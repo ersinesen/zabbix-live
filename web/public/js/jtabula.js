@@ -1026,8 +1026,12 @@ class JTabula {
       const chartTitleAlign = cellData.chartTitleAlign || "center";
       const chartId = div.id;
       const maxY = cellData.maxY;
+      const labels = cellData.labels;
 
-      const initialData = Array(20).fill(0);
+      // Initialize the chart with empty data
+      const numSeries = cellData.channels.length;
+      const initialData = Array.from({ length: numSeries }, () => Array(20).fill(0));
+      console.log(labels);
 
       let livechart = new ApexCharts(div, {
         chart: {
@@ -1037,7 +1041,7 @@ class JTabula {
             enabled: chartZoom,
           },
         },
-        series: [{ data: initialData }],
+        series: initialData.map((data, index) => ({ name: labels[index], data })), // Set the legend labels
         yaxis: {
           opposite: false,
           min: 0, // Set the minimum value of the y-axis
@@ -1062,6 +1066,7 @@ class JTabula {
           text: chartTitle,
           align: chartTitleAlign,
         },
+        labels: labels,
       });
       livechart.render();
 
@@ -1069,9 +1074,11 @@ class JTabula {
       this.livecharts[chartId] = livechart;
 
       const serverUrl = cellData.websocketurl;
-      const channelName = cellData.channel;
-      livechart.socketClient = new WebSocketClient(serverUrl, channelName, (ts, newData) => {
-        this.updateChart(chartId, newData);
+      const channels = cellData.channels;
+      channels.forEach((channel, index) => {
+        new WebSocketClient(serverUrl, channel, (ts, newData) => {
+          this.updateChart(chartId, index, newData);
+        });
       });
 
       return livechart;
@@ -1087,7 +1094,9 @@ class JTabula {
     const chartId = div.id;
     const labels = cellData.labels;
 
-    const initialData = Array(2).fill(50);
+    // Initialize the chart with empty data
+    const numSeries = cellData.channels.length;
+    const initialData = Array(numSeries).fill(1);
 
     let livechart = new ApexCharts(div, {
       chart: {
@@ -1113,9 +1122,11 @@ class JTabula {
     this.livecharts[chartId] = livechart;
 
     const serverUrl = cellData.websocketurl;
-    const channelName = cellData.channel;
-    new WebSocketClient(serverUrl, channelName, (newData) => {
-      this.updateChartPie(chartId, newData);
+    const channelNames = cellData.channels;
+    channelNames.forEach((channelName, index) => {
+      new WebSocketClient(serverUrl, channelName, (ts, newData) => {
+        this.updateChartPie(chartId, index, newData);
+      });
     });
 
     return livechart;
@@ -1124,42 +1135,46 @@ class JTabula {
   /**
    * Update the chart with new data.
    * @param {string} chartId - The ID of the chart to update.
+   * @param {number} index - The index of the series data to update
    * @param {Array} newData - The new data to update the chart with.
    */
-  updateChart(chartId, newData) {
+  updateChart(chartId, index, newData) {
     if (this.livecharts[chartId]) {
-      //console.log(chartId, newData);
+      console.log(chartId, index, newData);
 
       // Get the current series data
       const series = this.livecharts[chartId].w.config.series;
 
       // Assuming you want to update the first series
-      const data = series[0].data;
+      const data = series[index].data;
 
       // Shift the old data and push new data
       data.shift(); // Remove the oldest data point
-      data.push(newData); // Add new data point
+      data.push(Number(newData)); // Add new data point
 
       // Update the series with the new data
-      this.livecharts[chartId].updateSeries([{ data: data }], true);
+      const updatedSeries = series.map((s, i) => i === index ? { data } : s);
+      this.livecharts[chartId].updateSeries(updatedSeries, true);
+    } else {
+      console.error(`Index ${index} is out of bounds for series length ${series.length}`);
     }
   }
 
     /**
    * Update the pie chart with new data: 2-element pie
    * @param {string} chartId - The ID of the chart to update.
+   * @param {number} index - The index of the series data to update
    * @param {Array} newData - The new data to update the chart with.
    */
-    updateChartPie(chartId, newData) {
+    updateChartPie(chartId, index, newData) {
       if (this.livecharts[chartId]) {
-        console.log(chartId, newData);
+        console.log(chartId, index, newData);
   
         // Get the current series data
         let series = this.livecharts[chartId].w.config.series;
         
-        // 2 elem
-        series[0] = Number(newData);
-        series[1] = 100 - series[0]; 
+        // update
+        series[index] = Number(newData);
         
         // Update the series with the new data
         this.livecharts[chartId].updateSeries(series, true);
