@@ -28,9 +28,6 @@ Zabbix complementary system for live metric monitoring.
     
     Frontend: Displays real-time data to users, received from the backend. Simpla dashboard creation.
 
-    
-[Screenshots](./SCREENSHOTS.md)
-
 ## Installation
 
 1. Install Zabbix Postgresql Components [README](pgsql/README.md)
@@ -39,6 +36,9 @@ Zabbix complementary system for live metric monitoring.
 
 3. Install Zabbix-live Web Server [README](web/README.md)
 
+## Screenshots
+
+[![Screenshots](img/screenshot/screenshots.jpg)](./SCREENSHOTS.md)
 
 ## TODO
 
